@@ -25,6 +25,8 @@ services:
         networks:
             - nginx_default
             - twist_default
+        volumes:
+            - ./twist-backend/uploads_pictures:/usr/src/app/uploads_pictures
     twist-frontend:
         container_name: twist-frontend
         build:
