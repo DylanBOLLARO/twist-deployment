@@ -1,0 +1,6 @@
+[submodule "twist-frontend"]
+	path = twist-frontend
+	url = https://github.com/DylanBOLLARO/twist-frontend.git
+[submodule "twist-backend"]
+	path = twist-backend
+	url = https://github.com/DylanBOLLARO/twist-backend.git

@@ -1,0 +1,45 @@
+name: twist
+services:
+    twist-postgres:
+        container_name: twist-postgres
+        image: postgres:latest
+        restart: unless-stopped
+        environment:
+            POSTGRES_DB: ${POSTGRES_DB}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            PGPORT: 55432
+        networks:
+            - twist_default
+    twist-backend:
+        container_name: twist-backend
+        build:
+            context: ./twist-backend/
+        restart: unless-stopped
+        environment:
+            DATABASE_URL: ${DATABASE_URL}
+            AT_SECRET: ${AT_SECRET}
+            RT_SECRET: ${RT_SECRET}
+        depends_on:
+            - twist-postgres
+        networks:
+            - nginx_default
+            - twist_default
+    twist-frontend:
+        container_name: twist-frontend
+        build:
+            context: ./twist-frontend/
+            args:
+                NEXT_PUBLIC_API: ${NEXT_PUBLIC_API}
+        restart: always
+        ports:
+            - 43000:43000
+        networks:
+            - nginx_default
+networks:
+    nginx_default:
+        name: nginx_default
+        external: true
+    twist_default:
+        name: twist_default
+        external: true
